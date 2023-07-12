@@ -204,18 +204,18 @@ iNEXTbeta3D = function(data, diversity = 'TD', q = c(0, 1, 2), datatype = 'abund
         pool.data[is.na(pool.data)] = 0
         pool.data = pool.data %>% column_to_rownames() %>% rowSums
       } else pool.data = do.call(cbind, data_list) %>% rowSums
-    
-    if (datatype == 'incidence_raw') pool.data = do.call(cbind,lapply(data_list, function(x) do.call(cbind,x)) ) %>% rowSums
-    
-    pool.name = names(pool.data[pool.data>0])
-    tip = PDtree$tip.label[-match(pool.name, PDtree$tip.label)]
-    mytree = drop.tip(PDtree, tip)
-    H_max = get.rooted.tree.height(mytree)
-    
-    if(is.null(PDreftime)) { reft = H_max
-    } else if (PDreftime <= 0) { stop("Reference time must be greater than 0. Use NULL to set it to pooled tree height.", call. = FALSE)
-    } else { reft = PDreftime }
-    
+      
+      if (datatype == 'incidence_raw') pool.data = do.call(cbind,lapply(data_list, function(x) do.call(cbind,x)) ) %>% rowSums
+      
+      pool.name = names(pool.data[pool.data>0])
+      tip = PDtree$tip.label[-match(pool.name, PDtree$tip.label)]
+      mytree = drop.tip(PDtree, tip)
+      H_max = get.rooted.tree.height(mytree)
+      
+      if(is.null(PDreftime)) { reft = H_max
+      } else if (PDreftime <= 0) { stop("Reference time must be greater than 0. Use NULL to set it to pooled tree height.", call. = FALSE)
+      } else { reft = PDreftime }
+      
   }
   
   for_each_region = function(data, region_name, N) {
@@ -429,7 +429,7 @@ iNEXTbeta3D = function(data, diversity = 'TD', q = c(0, 1, 2), datatype = 'abund
           cbind(gamma, alpha, beta, C, U, V, S) %>% as.matrix
           
           # }, simplify = "array") %>% apply(., 1:2, sd) %>% data.frame
-        }) %>% abind(along = 3) %>% apply(1:2, sd)
+        }, future.seed=TRUE) %>% abind(along = 3) %>% apply(1:2, sd)
         # end = Sys.time()
         # end - start
         
@@ -875,7 +875,7 @@ iNEXTbeta3D = function(data, diversity = 'TD', q = c(0, 1, 2), datatype = 'abund
           cbind(gamma, alpha, beta, C, U, V, S) %>% as.matrix
           
           # }, simplify = "array") %>% apply(., 1:2, sd) %>% data.frame
-        }) %>% abind(along = 3) %>% apply(1:2, sd)
+        }, future.seed=TRUE) %>% abind(along = 3) %>% apply(1:2, sd)
         # end = Sys.time()
         # end - start
         
@@ -1434,7 +1434,7 @@ iNEXTbeta3D = function(data, diversity = 'TD', q = c(0, 1, 2), datatype = 'abund
           cbind(gamma, alpha, beta, C, U, V, S) %>% as.matrix
           
           # }, simplify = "array") %>% apply(., 1:2, sd) %>% data.frame
-        }) %>% abind(along = 3) %>% apply(1:2, sd)
+        }, future.seed=TRUE) %>% abind(along = 3) %>% apply(1:2, sd)
         # end = Sys.time()
         # end - start
         
@@ -2095,7 +2095,7 @@ iNEXTbeta3D = function(data, diversity = 'TD', q = c(0, 1, 2), datatype = 'abund
           cbind(gamma, alpha) %>% as.matrix
           
           # }, simplify = "array") %>% apply(., 1:2, sd) %>% data.frame
-        }) %>% abind(along = 3) %>% apply(1:2, sd)
+        }, future.seed=TRUE) %>% abind(along = 3) %>% apply(1:2, sd)
         # end = Sys.time()
         # end - start
         
@@ -2520,7 +2520,7 @@ iNEXTbeta3D = function(data, diversity = 'TD', q = c(0, 1, 2), datatype = 'abund
           cbind(gamma, alpha) %>% as.matrix
           
           # }, simplify = "array") %>% apply(., 1:2, sd) %>% data.frame
-        }) %>% abind(along = 3) %>% apply(1:2, sd)
+        }, future.seed=TRUE) %>% abind(along = 3) %>% apply(1:2, sd)
         # end = Sys.time()
         # end - start
         
@@ -2611,7 +2611,6 @@ iNEXTbeta3D = function(data, diversity = 'TD', q = c(0, 1, 2), datatype = 'abund
   return(output)
   
 }
-
 
 
 #' ggplot2 extension for an iNEXTbeta3D object
