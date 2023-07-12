@@ -5,6 +5,12 @@
 <h5 align="right">
 Latest version: 2023-04-10
 </h5>
+
+
+*NOTE* This is Anne Chao and Kai-Hsiang Hu's package, and I make no claim to it. If you've found this rerpository, please re-direct to theirs. I've created this fork just to address warnings from unreliable random numbers that I encountered while analyzing my data with their iNEXTbeta3D package.
+
+
+
 <font color="394CAE">
 <h3 color="394CAE" style="font-weight: bold">
 Introduction to iNEXT.beta3D (R package): Excerpt from iNEXT.beta3D
